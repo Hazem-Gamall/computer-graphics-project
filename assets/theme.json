@@ -1,0 +1,58 @@
+{
+  "#state_panel": {
+    "images": {
+      "background_image": {
+        "path": "assets/stateUiSurface.png"
+      }
+    }
+  },
+
+  "#main_panel": {
+    "images": {
+      "background_image": {
+        "path": "assets/mainUiSurface.png"
+      }
+    }
+  },
+
+  "#background_panel": {
+    "images": {
+      "background_image": {
+        "path": "assets/background.png"
+      }
+    }
+  },
+  
+  "#draw_button":{
+    "images":{
+        "normal_image":{
+            "path":"assets/drawButtonBase.png"
+        },
+        "hovered_image":{
+            "path":"assets/drawButtonSecondary.png"
+        }
+    }
+  },
+
+  "#transform_button":{
+    "images":{
+        "normal_image":{
+            "path":"assets/transformButtonBase.png"
+        },
+        "hovered_image":{
+            "path":"assets/transformButtonSecondary.png"
+        }
+    }
+  },
+
+  "#clip_button":{
+    "images":{
+        "normal_image":{
+            "path":"assets/clipButtonBase.png"
+        },
+        "hovered_image":{
+            "path":"assets/clipButtonSecondary.png"
+        }
+    }
+  }
+}

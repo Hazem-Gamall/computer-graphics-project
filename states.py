@@ -1,7 +1,9 @@
-from email.headerregistry import Group
 from enum import Enum
-from uiPanel import UiPanel
 import pygame
+import pygame_gui
+from pygame_gui.core import ObjectID
+
+from button import CallbackButton
 
 class SubState(Enum):
     NEUTRAL = 1
@@ -13,10 +15,12 @@ class SubState(Enum):
     ELLIPSE = 7
 
 
-class BaseState():
+class BaseState:
     def __init__(self, game) -> None:
         self.game = game
-        self.sub_state:SubState = SubState.NEUTRAL
+        self.sub_state: SubState = SubState.NEUTRAL
+        self.game.reset_state_panel()
+
     def update(self):
         ...
 
@@ -25,18 +29,21 @@ class BaseState():
 
 
 class DrawState(BaseState):
-    def __init__(self,game) -> None:
+    def __init__(self, game) -> None:
         super().__init__(game)
-        self.group = pygame.sprite.Group()
-    
+        CallbackButton(pygame.Rect(0,0,100,100),"hey",game.ui_manager,game.state_panel)
+        CallbackButton(pygame.Rect(150,150,100,100),"hola",game.ui_manager,game.state_panel)
+
     def update(self):
-        ...
-    
+        print("draw state update")
+
     def draw(self):
         ...
 
+
 class TransformState(BaseState):
     ...
+
 
 class ClipState(BaseState):
     ...
