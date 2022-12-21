@@ -3,14 +3,15 @@ import pygame
 from eventManager import EventManager
 
 class Button(pygame.sprite.Sprite):
-	def __init__(self, pos):
+	def __init__(self, pos, callback):
 		super().__init__()
 		self.pos = pos
+		self.callback = callback
 		
 
 class ImageButton(Button):
-	def __init__(self, pos, base_image, secondary_image): 
-		super().__init__(pos)
+	def __init__(self, pos, base_image, secondary_image, callback=None): 
+		super().__init__(pos, callback)
 		self.base_image = base_image
 		self.secondary_image = secondary_image
 		self.image = base_image
@@ -29,9 +30,12 @@ class ImageButton(Button):
 		if(self.checkForInput(event.pos)):
 			self.image = self.secondary_image
 
+
 	def on_mouse_button_up(self, event):
 		if(self.checkForInput(event.pos)):
-			self.image = self.base_image
+			if self.callback:
+				self.callback()
+		self.image = self.base_image
 
 	def checkForInput(self, position):
 		if position[0] in range(self.rect.left, self.rect.right) and position[1] in range(self.rect.top, self.rect.bottom):
