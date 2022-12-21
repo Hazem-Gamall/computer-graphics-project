@@ -4,21 +4,22 @@ import pygame_gui
 from pygame_gui.core import ObjectID
 
 from button import CallbackButton
+from drawingManager import DrawingManager
+from eventManager import EventManager
+from shape import Shape
 
-class SubState(Enum):
+
+class Substate(Enum):
     NEUTRAL = 1
-    LINE = 2
-    TRIANGLE = 3
-    RECTANGLE = 4
-    PENTAGON = 5
-    CIRCLE = 6
-    ELLIPSE = 7
+    SHAPE = 2
+    CIRCLE = 3
+    ELLIPSE = 4
 
 
 class BaseState:
     def __init__(self, game) -> None:
         self.game = game
-        self.sub_state: SubState = SubState.NEUTRAL
+        self.substate: Substate = Substate.NEUTRAL
         self.game.reset_state_panel()
 
     def update(self):
@@ -27,18 +28,49 @@ class BaseState:
     def draw(self):
         ...
 
+    def on_click(self):
+        ...
+
+    def change_substate(self, new_substate: Substate):
+        ...
+
 
 class DrawState(BaseState):
     def __init__(self, game) -> None:
         super().__init__(game)
-        CallbackButton(pygame.Rect(0,0,100,100),"hey",game.ui_manager,game.state_panel)
-        CallbackButton(pygame.Rect(150,150,100,100),"hola",game.ui_manager,game.state_panel)
+        self.temp_shape = None
+        CallbackButton(
+            pygame.Rect(40, 50, 70, 70),
+            manager=game.ui_manager,
+            container=game.state_panel,
+            object_id=ObjectID("#line_button"),
+            callback=lambda event: self.create_shape(2),
+        )
+        CallbackButton(
+            pygame.Rect(150, 150, 100, 100), "hola", game.ui_manager, game.state_panel
+        )
+        EventManager().register_event(pygame.MOUSEBUTTONDOWN, self.on_click)
 
     def update(self):
-        print("draw state update")
+        # print("draw state update")
+        ...
 
     def draw(self):
         ...
+
+    def on_click(self, event):
+        if self.substate == Substate.SHAPE:
+            print(event.pos)
+            if self.temp_shape.set_vertex(event.pos):
+                DrawingManager().register_shape(self.temp_shape)
+                self.change_substate(Substate.NEUTRAL)
+
+    def change_substate(self, new_substate: Substate):
+        self.substate = new_substate
+
+    def create_shape(self, num_of_vertices):
+        self.change_substate(Substate.SHAPE)
+        self.temp_shape = Shape(num_of_vertices)
 
 
 class TransformState(BaseState):

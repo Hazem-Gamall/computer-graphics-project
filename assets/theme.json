@@ -54,5 +54,16 @@
             "path":"assets/clipButtonSecondary.png"
         }
     }
+  },
+
+  "#line_button":{
+    "images":{
+        "normal_image":{
+            "path":"assets/lineButtonBase.png"
+        },
+        "selected_image":{
+            "path":"assets/lineButtonSecondary.png"
+        }
+    }
   }
 }

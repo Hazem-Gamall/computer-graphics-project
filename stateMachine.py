@@ -1,7 +1,8 @@
 from singleton import Singleton
 class StateMachine(metaclass=Singleton):
         __current_state = None
-        def __init__(self, game) -> None:
+
+        def initialize(self, game):
             self.game = game
 
         def change_state(self, new_state):

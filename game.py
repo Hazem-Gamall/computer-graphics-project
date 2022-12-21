@@ -1,4 +1,5 @@
 import sys
+from drawingManager import DrawingManager
 from eventManager import EventManager
 from singleton import Singleton
 import pygame
@@ -8,14 +9,29 @@ import pygame_gui
 from pygame_gui.core import ObjectID
 from button import CallbackButton
 
+#this file is too big
+#TODO:
+    #create a panel manager.
 
 class Game(metaclass=Singleton):
     SCREEN_SIZE = (1366, 768)
 
-    def __init__(self) -> None:
+
+    def initialize(self, screen):
         self.ui_manager = pygame_gui.UIManager(self.SCREEN_SIZE, "assets/theme.json")
+        self.main_panel = None
+        self.state_panel = None
+        self.play_surface = None
         self.init_panels()
-        StateMachine(self).change_state(states.BaseState(self))
+        StateMachine().initialize(self)
+        StateMachine().change_state(states.BaseState(self))
+        self.screen = screen
+        DrawingManager().initialize(self.play_surface)
+        EventManager().initialize()
+
+    def draw(self):
+        DrawingManager().draw()
+        self.screen.blit(self.play_surface, (270,80))
 
     def update(self):
         for event in pygame.event.get():
@@ -34,7 +50,7 @@ class Game(metaclass=Singleton):
     def init_panels(self):
         self.init_main_panel()
         self.init_state_panel()
-        self.init_background_panel()
+        self.init_play_surface()
 
     def init_main_panel(self):
 
@@ -82,9 +98,8 @@ class Game(metaclass=Singleton):
             object_id=ObjectID("#state_panel"),
         )
 
-    def init_background_panel(self):
-        self.background_panel = pygame_gui.elements.UIPanel(
-            relative_rect=pygame.Rect(270, 80, 1166, 941),
-            manager=self.ui_manager,
-            object_id=ObjectID("#background_panel"),
-        )
+    def init_play_surface(self):
+        self.play_surface = pygame.Surface((1166,941))
+        self.play_surface.fill("#A5C5E7")
+        from main import screen
+        screen.blit(self.play_surface, (270,80))
