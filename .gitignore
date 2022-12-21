@@ -1,3 +1,4 @@
 .vscode/
 assets/test/
 testScripts/
+__pycache__/
