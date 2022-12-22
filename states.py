@@ -2,6 +2,7 @@ from enum import Enum
 import pygame
 import pygame_gui
 from pygame_gui.core import ObjectID
+from audioManager import AudioManager
 
 from button import CallbackButton
 from drawingManager import DrawingManager
@@ -63,6 +64,7 @@ class DrawState(BaseState):
             print(event.pos)
             
             if DrawingManager().check_collision_with_surface(event.pos):
+                AudioManager().play_sound("hitmarker")
                 if self.temp_shape.set_vertex(event.pos):
                     DrawingManager().register_shape(self.temp_shape)
                     self.change_substate(Substate.NEUTRAL)

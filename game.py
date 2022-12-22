@@ -1,4 +1,5 @@
 import sys
+from audioManager import AudioManager
 from drawingManager import DrawingManager
 from eventManager import EventManager
 from singleton import Singleton
@@ -28,6 +29,8 @@ class Game(metaclass=Singleton):
         self.screen = screen
         DrawingManager().initialize(self.play_surface)
         EventManager().initialize()
+        AudioManager().initialize()
+        AudioManager().register_sound("hitmarker", "assets/sound/hitmarker.mp3")
 
     def draw(self):
         DrawingManager().draw()

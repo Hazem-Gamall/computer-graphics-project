@@ -7,3 +7,9 @@
 - Add sound effects.
 - Add Indicators for mouse clicks.
 - ~~Detect only mouse clicks inside the play surface when drawing~~
+- Seperate the drawing algorithims from the DrawingManager
+- Add buttons to switch between DDA and Bresenham.
+- Change the cursos during play states.
+- Draw coordinates next to verices.
+- Add a text area to infrom the player of the current state.
+- Add someway to change the size of the "pixel".
