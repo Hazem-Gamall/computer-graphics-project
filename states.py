@@ -61,9 +61,11 @@ class DrawState(BaseState):
     def on_click(self, event):
         if self.substate == Substate.SHAPE:
             print(event.pos)
-            if self.temp_shape.set_vertex(event.pos):
-                DrawingManager().register_shape(self.temp_shape)
-                self.change_substate(Substate.NEUTRAL)
+            
+            if DrawingManager().check_collision_with_surface(event.pos):
+                if self.temp_shape.set_vertex(event.pos):
+                    DrawingManager().register_shape(self.temp_shape)
+                    self.change_substate(Substate.NEUTRAL)
 
     def change_substate(self, new_substate: Substate):
         self.substate = new_substate

@@ -6,3 +6,4 @@
 - Live line drawing.
 - Add sound effects.
 - Add Indicators for mouse clicks.
+- ~~Detect only mouse clicks inside the play surface when drawing~~
