@@ -22,48 +22,79 @@
       }
     }
   },
-  
-  "#draw_button":{
-    "images":{
-        "normal_image":{
-            "path":"assets/drawButtonBase.png"
-        },
-        "hovered_image":{
-            "path":"assets/drawButtonSecondary.png"
-        }
+
+  "#draw_button": {
+    "images": {
+      "normal_image": {
+        "path": "assets/drawButtonBase.png"
+      },
+      "hovered_image": {
+        "path": "assets/drawButtonSecondary.png"
+      }
     }
   },
 
-  "#transform_button":{
-    "images":{
-        "normal_image":{
-            "path":"assets/transformButtonBase.png"
-        },
-        "hovered_image":{
-            "path":"assets/transformButtonSecondary.png"
-        }
+  "#transform_button": {
+    "images": {
+      "normal_image": {
+        "path": "assets/transformButtonBase.png"
+      },
+      "hovered_image": {
+        "path": "assets/transformButtonSecondary.png"
+      }
     }
   },
 
-  "#clip_button":{
-    "images":{
-        "normal_image":{
-            "path":"assets/clipButtonBase.png"
-        },
-        "hovered_image":{
-            "path":"assets/clipButtonSecondary.png"
-        }
+  "#clip_button": {
+    "images": {
+      "normal_image": {
+        "path": "assets/clipButtonBase.png"
+      },
+      "hovered_image": {
+        "path": "assets/clipButtonSecondary.png"
+      }
     }
   },
 
-  "#line_button":{
-    "images":{
-        "normal_image":{
-            "path":"assets/lineButtonBase.png"
-        },
-        "selected_image":{
-            "path":"assets/lineButtonSecondary.png"
-        }
+  "#line_button": {
+    "images": {
+      "normal_image": {
+        "path": "assets/lineButtonBase.png"
+      },
+      "selected_image": {
+        "path": "assets/lineButtonSecondary.png"
+      }
+    },
+    "misc": {
+      "shadow_width": "10"
+    }
+  },
+
+  "#rectangle_button": {
+    "images": {
+      "normal_image": {
+        "path": "assets/rectangleButtonBase.png"
+      },
+      "selected_image": {
+        "path": "assets/rectangleButtonSecondary.png"
+      }
+    },
+    "misc": {
+      "shadow_width": "10"
+    }
+  },
+
+  "#triangle_button": {
+    "images": {
+      "normal_image": {
+        "path": "assets/triangleButtonBase.png"
+      },
+      "selected_image": {
+        "path": "assets/triangleButtonSecondary.png"
+      }
+    },
+    "misc": {
+      "shadow_width": "10"
     }
   }
 }

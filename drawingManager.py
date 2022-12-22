@@ -1,23 +1,25 @@
 import sys
 from pygame import Surface
+from shapes import Shape
 from singleton import Singleton
-
+from typing import List
 
 class DrawingManager(metaclass=Singleton):
     def initialize(self, drawing_surface: Surface):
-        self.shapes = []
+        self.shapes:List[Shape] = []
         self.pixel = Surface((5, 5))
         self.pixel.fill("#123456")
         self.drawing_surface: Surface = drawing_surface
         self.drawing_surface_offset = (270, 80)
         self.rect = self.drawing_surface.get_rect(topleft = self.drawing_surface_offset)
 
-    def register_shape(self, shape):
+    def register_shape(self, shape: Shape):
         self.shapes.append(shape)
 
     def draw(self):
         for shape in self.shapes:
-            self.dda(*shape.vertices)
+            for i in range(-1, len(shape.vertices)-1):
+                self.dda(shape.vertices[i], shape.vertices[i+1])
 
     def dda(self, p1, p2):
         x1, y1 = p1

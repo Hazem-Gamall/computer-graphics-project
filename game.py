@@ -25,12 +25,13 @@ class Game(metaclass=Singleton):
         self.play_surface = None
         self.init_panels()
         StateMachine().initialize(self)
-        StateMachine().change_state(states.BaseState(self))
+        EventManager().initialize()
+        StateMachine().change_state(states.DrawState(self))
         self.screen = screen
         DrawingManager().initialize(self.play_surface)
-        EventManager().initialize()
         AudioManager().initialize()
         AudioManager().register_sound("hitmarker", "assets/sound/hitmarker.mp3")
+        AudioManager().register_sound("button_click", "assets/sound/button_click.mp3")
 
     def draw(self):
         DrawingManager().draw()
