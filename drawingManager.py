@@ -17,6 +17,7 @@ class DrawingManager(metaclass=Singleton):
         self.shapes.append(shape)
 
     def draw(self):
+        self.drawing_surface.fill("#A5C5E7")
         for shape in self.shapes:
             for i in range(-1, len(shape.vertices)-1):
                 self.dda(shape.vertices[i], shape.vertices[i+1])
@@ -115,7 +116,6 @@ class DrawingManager(metaclass=Singleton):
                 
     def check_collision_with_surface(self, position):
         if position[0] in range(self.rect.left, self.rect.right) and position[1] in range(self.rect.top, self.rect.bottom):
-            print(self.rect)
             return True
         return False
     def draw_to_surface(self, surface_to_draw, position):

@@ -16,3 +16,7 @@ class EventManager(metaclass=Singleton):
         for listener in self.__event_listeners.get(event.type, []):
             listener(event)
         # print(self.__eventListeners)
+    
+    def pop_event(self, event_type, callback):
+        self.__event_listeners[event_type].remove(callback)
+        # print(self.__event_listeners[event_type])

@@ -6,6 +6,8 @@ class StateMachine(metaclass=Singleton):
             self.game = game
 
         def change_state(self, new_state):
+            if self.__current_state:
+                self.__current_state.on_exit()
             self.__current_state = new_state
 
         @property

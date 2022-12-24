@@ -96,5 +96,63 @@
     "misc": {
       "shadow_width": "10"
     }
+  },
+
+  "#translate_button": {
+    "images": {
+      "normal_image": {
+        "path": "assets/translateButtonBase.png"
+      },
+      "selected_image": {
+        "path": "assets/translateButtonSecondary.png"
+      }
+    },
+    "misc": {
+      "shadow_width": "10"
+    }
+  },
+
+  "window": {
+    "colours": {
+      "dark_bg": "#BCCEE1",
+      "normal_border": "#999999"
+    },
+
+    "misc": {
+      "shape": "rounded_rectangle",
+      "shape_corner_radius": "5",
+      "border_width": "0",
+      "shadow_width": "15",
+      "enable_title_bar": "0",
+      "enable_close_button": "0"
+    }
+  },
+  "window.text_entry_line": {
+    "colours": {
+      "dark_bg": "#ffffff",
+      "selected_bg": "#55595e",
+      "normal_text": "#000000",
+      "selected_text": "#FFFFFF",
+      "normal_border": "#FFFFFF",
+      "text_cursor": "#000000"
+    }
+  },
+
+  "window.button":{
+    "colours":{
+      "normal_bg":"#32A4AB",
+      "normal_text":"#123456",
+      "hovered_bg":"#18848B",
+      "active_bg":"#358B90"
+    },
+    "misc":{
+      "border_width":"0",
+      "shape":"rounded_rectangle"
+    }
+  },
+  "window.label":{
+    "colours":{
+      "normal_text":"#000000"
+    }
   }
 }
