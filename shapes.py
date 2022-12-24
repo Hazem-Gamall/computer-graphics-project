@@ -74,3 +74,11 @@ class Rectangle(Shape):
         top_right_vertex = (x1 + width, y1)
         bottom_left_vertex = (x1, y1+height)
         self.vertices = [self.top_left_vertex, top_right_vertex, self.bottom_right_vertex, bottom_left_vertex]
+
+    def get_bounding_rect(self):
+        left = self.vertices[0][0]
+        top  = self.vertices[0][1]
+        width = self.vertices[1][0] - self.vertices[0][0]
+        height = self.vertices[2][1] - self.vertices[0][1]
+        print(Rect(left,top,width, height))
+        return Rect(left,top,width, height)
