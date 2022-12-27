@@ -1,10 +1,10 @@
 # Planned features
 - Eraser for lines and shapes.
-- Drawing of Rectangles, Triangles, Pentagons, Hexagons, Circles, and Ellipses.
-- Transformations.
+- Drawing of ~~Rectangles~~, ~~Triangles~~, Pentagons, Hexagons, Circles, and Ellipses.
+- ~~Transformations.~~
 - Clipping.
 - Live line drawing.
-- Add sound effects.
+- ~~Add sound effects.~~
 - Add Indicators for mouse clicks.
 - ~~Detect only mouse clicks inside the play surface when drawing~~
 - Seperate the drawing algorithims from the DrawingManager
@@ -13,3 +13,6 @@
 - Draw coordinates next to verices.
 - Add a text area to infrom the player of the current state.
 - Add someway to change the size of the "pixel".
+- Show the table for dda/bresenham.
+- Add the ability to export the play surface.
+- Add a one time only window for each state describing how it works.

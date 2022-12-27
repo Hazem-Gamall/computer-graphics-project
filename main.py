@@ -11,7 +11,6 @@ clock = pygame.time.Clock()
 # testButton = ImageButton((500,70), pygame.image.load("assets/drawButtonBase.png"), pygame.image.load("assets/drawButtonSecondary.png"))
 while True:
     time_delta = clock.tick(60)/1000.0
-   
     PLAY_MOUSE_POS = pygame.mouse.get_pos()
 
     # testButton.checkHover(PLAY_MOUSE_POS)

@@ -112,6 +112,63 @@
     }
   },
 
+
+  "#scale_button": {
+    "images": {
+      "normal_image": {
+        "path": "assets/scaleButtonBase.png"
+      },
+      "selected_image": {
+        "path": "assets/scaleButtonSecondary.png"
+      }
+    },
+    "misc": {
+      "shadow_width": "10"
+    }
+  },
+
+  "#rotate_button": {
+    "images": {
+      "normal_image": {
+        "path": "assets/rotateButtonBase.png"
+      },
+      "selected_image": {
+        "path": "assets/rotateButtonSecondary.png"
+      }
+    },
+    "misc": {
+      "shadow_width": "10"
+    }
+  },
+
+  "#pivot_scale_button": {
+    "images": {
+      "normal_image": {
+        "path": "assets/pivotScalingButtonBase.png"
+      },
+      "selected_image": {
+        "path": "assets/pivotScalingButtonSecondary.png"
+      }
+    },
+    "misc": {
+      "shadow_width": "10"
+    }
+  },
+
+  "#pivot_rotate_button": {
+    "images": {
+      "normal_image": {
+        "path": "assets/pivotRotationButtonBase.png"
+      },
+      "selected_image": {
+        "path": "assets/pivotRotationButtonSecondary.png"
+      }
+    },
+    "misc": {
+      "shadow_width": "10"
+    }
+  },
+
   "window": {
     "colours": {
       "dark_bg": "#BCCEE1",

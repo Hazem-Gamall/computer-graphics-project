@@ -2,25 +2,32 @@ import sys
 from pygame import Surface
 from shapes import Shape
 from singleton import Singleton
-from typing import List
+from typing import Iterable, List, Union
+
 
 class DrawingManager(metaclass=Singleton):
     def initialize(self, drawing_surface: Surface):
-        self.shapes:List[Shape] = []
+        self.shapes: List[Shape] = []
         self.pixel = Surface((5, 5))
         self.pixel.fill("#123456")
         self.drawing_surface: Surface = drawing_surface
         self.drawing_surface_offset = (270, 80)
-        self.rect = self.drawing_surface.get_rect(topleft = self.drawing_surface_offset)
+        self.rect = self.drawing_surface.get_rect(topleft=self.drawing_surface_offset)
 
-    def register_shape(self, shape: Shape):
-        self.shapes.append(shape)
+    def register_shapes(self, shapes: Union[Shape, Iterable]):
+        if isinstance(shapes, Iterable):
+            self.shapes += shapes
+            return
+        self.shapes.append(shapes)
+
+    def pop_shape(self, shape: Shape):
+        self.shapes.remove(shape)
 
     def draw(self):
         self.drawing_surface.fill("#A5C5E7")
         for shape in self.shapes:
-            for i in range(-1, len(shape.vertices)-1):
-                self.dda(shape.vertices[i], shape.vertices[i+1])
+            for i in range(-1, len(shape.vertices) - 1):
+                self.bresenham(shape.vertices[i], shape.vertices[i + 1])
 
     def dda(self, p1, p2):
         x1, y1 = p1
@@ -29,12 +36,14 @@ class DrawingManager(metaclass=Singleton):
         dx = x2 - x1
         dy = y2 - y1
         inc = max(abs(dx), abs(dy))
+
+        if inc == 0:
+            return
         Xinc = dx / inc
         Yinc = dy / inc
         # print(dx, dy, Xinc, Yinc)
         x, y = x1, y1
         self.draw_to_surface(
-            self.pixel,
             (
                 round(x),
                 round(y),
@@ -44,7 +53,6 @@ class DrawingManager(metaclass=Singleton):
             x += Xinc
             y += Yinc
             self.draw_to_surface(
-                self.pixel,
                 (
                     round(x),
                     round(y),
@@ -68,9 +76,9 @@ class DrawingManager(metaclass=Singleton):
             x1, x2, dx, y1, y2, dy = y1, y2, dy, x1, x2, dx
             # print(x1, x2, dx, y1, y2, dy)
             lt_one_slope = False
-            self.draw_to_surface(self.pixel, (y1, x1))
+            self.draw_to_surface((y1, x1))
         else:
-            self.draw_to_surface(self.pixel, (x1, y1))
+            self.draw_to_surface((x1, y1))
         pk = 2 * dy - dx
 
         # for (int i = 0; i <= dx; i++) {
@@ -90,14 +98,14 @@ class DrawingManager(metaclass=Singleton):
                 if lt_one_slope:
 
                     # putpixel(x1, y1, RED);
-                    self.draw_to_surface(self.pixel, (x1, y1))
+                    self.draw_to_surface((x1, y1))
                     # self.drawing_surface.blit(self.pixel, (x1,y1))
                     pk = pk + 2 * dy
                 else:
 
                     # (y1,x1) is passed in xt
                     # putpixel(y1, x1, YELLOW);
-                    self.draw_to_surface(self.pixel, (y1, x1))
+                    self.draw_to_surface((y1, x1))
                     # self.drawing_surface.blit(self.pixel, (y1,x1))
                     pk = pk + 2 * dy
             else:
@@ -107,18 +115,24 @@ class DrawingManager(metaclass=Singleton):
                     y1 = y1 - 1
 
                 if lt_one_slope:
-                    self.draw_to_surface(self.pixel, (x1, y1))
+                    self.draw_to_surface((x1, y1))
                     # self.drawing_surface.blit(self.pixel, (x1,y1))
                 else:
-                    self.draw_to_surface(self.pixel, (y1, x1))
+                    self.draw_to_surface((y1, x1))
                     # self.drawing_surface.blit(self.pixel, (y1,x1))
                 pk = pk + 2 * dy - 2 * dx
-                
+
     def check_collision_with_surface(self, position):
-        if position[0] in range(self.rect.left, self.rect.right) and position[1] in range(self.rect.top, self.rect.bottom):
+        if position[0] in range(self.rect.left, self.rect.right) and position[
+            1
+        ] in range(self.rect.top, self.rect.bottom):
             return True
         return False
-    def draw_to_surface(self, surface_to_draw, position):
+
+    def draw_to_surface(self, position):
         x, y = position
-        position = (x - self.drawing_surface_offset[0], y - self.drawing_surface_offset[1])
-        self.drawing_surface.blit(surface_to_draw, position)
+        position = (
+            x - self.drawing_surface_offset[0],
+            y - self.drawing_surface_offset[1],
+        )
+        self.drawing_surface.blit(self.pixel, position)

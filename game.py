@@ -1,11 +1,11 @@
 import sys
-from audioManager import AudioManager
-from drawingManager import DrawingManager
-from eventManager import EventManager
+from audio_manager import AudioManager
+from drawing_manager import DrawingManager
+from event_manager import EventManager
 from singleton import Singleton
 import pygame
-from stateMachine import StateMachine
-import states
+from state_machine import StateMachine
+from states import DrawState, TransformState, ClipState
 import pygame_gui
 from pygame_gui.core import ObjectID
 from button import CallbackButton
@@ -26,7 +26,7 @@ class Game(metaclass=Singleton):
         self.init_panels()
         StateMachine().initialize(self)
         EventManager().initialize()
-        StateMachine().change_state(states.DrawState(self))
+        StateMachine().change_state(DrawState(self))
         self.screen = screen
         DrawingManager().initialize(self.play_surface)
         AudioManager().initialize()
@@ -71,7 +71,7 @@ class Game(metaclass=Singleton):
             object_id=ObjectID("#draw_button"),
             anchors={"center": "center"},
             callback=lambda event: StateMachine(self).change_state(
-                states.DrawState(self)
+                DrawState(self)
             ),
         )
         CallbackButton(
@@ -81,7 +81,7 @@ class Game(metaclass=Singleton):
             object_id=ObjectID("#transform_button"),
             anchors={"center": "center"},
             callback=lambda event: StateMachine(self).change_state(
-                states.TransformState(self)
+                TransformState(self)
             ),
         )
         CallbackButton(
@@ -91,7 +91,7 @@ class Game(metaclass=Singleton):
             object_id=ObjectID("#clip_button"),
             anchors={"center": "center"},
             callback=lambda event: StateMachine(self).change_state(
-                states.ClipState(self)
+                ClipState(self)
             ),
         )
 
