@@ -72,7 +72,7 @@ def cohen_sutherland(p1: Tuple, p2: Tuple, window_max: Tuple, window_min: Tuple)
 
 def clip_shape(shape: Shape, window:Rectangle):
     post_clipping_shape_lines = []
-    for i in range(len(shape.vertices)-1):
+    for i in range(-1, len(shape.vertices)-1):
         new_points = cohen_sutherland(shape.vertices[i], shape.vertices[i+1], window.max_p, window.min_p)
         if new_points:
             new_line = Line()
