@@ -1,13 +1,17 @@
 import math
 import sys
-from shapes import Shape
+from shapes import Shape, Circle
 import numpy as np
+
 
 
 def apply_transformation(shape: Shape, transformation_matrix):
     for i, vertex in enumerate(shape.vertices):
         new_vertex = (np.matmul(transformation_matrix, [*vertex, 1])[:2]).astype(np.int32).tolist()
         shape.vertices[i] = new_vertex
+        #TODO: bad design
+        if isinstance(shape, Circle):
+            shape.center = new_vertex
 
 
 
@@ -23,6 +27,9 @@ def translate(shape: Shape, tx, ty):
 
 
 
+def circle_scaling(circle: Circle, s):
+    circle.radius *= s
+
 
 def scale(shape: Shape, sx, sy):
     scaling_matrix = np.array(
@@ -33,6 +40,9 @@ def scale(shape: Shape, sx, sy):
         ])
 
     apply_transformation(shape, scaling_matrix)
+
+    if isinstance(shape, Circle):
+        circle_scaling(shape, sx)
 
 
 def rotate(shape: Shape, angle):
@@ -73,4 +83,7 @@ def pivot_scale(shape: Shape, sx, sy, px, py):
         ])
 
     apply_transformation(shape, pivot_scaling_matrix)
+    if isinstance(shape, Circle):
+        circle_scaling(shape, sx)        
+
 
