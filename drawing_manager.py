@@ -129,12 +129,12 @@ class DrawingManager(metaclass=Singleton):
         x = radius
         y = 0
         x_center, y_center = center
-        self.draw_to_surface((x, y))
+        self.draw_to_surface((x + x_center, y + y_center))
+
 
         if radius > 0:  # if it's 0 then it's a single point
             # for the first point only 4 are enough,
             # because each two adjacent octents share a single point
-            self.draw_to_surface((x + x_center, y + y_center))
             self.draw_to_surface((y + x_center, x + y_center))
             self.draw_to_surface((-x + x_center, y + y_center))
             self.draw_to_surface((-y + x_center, x + y_center))
