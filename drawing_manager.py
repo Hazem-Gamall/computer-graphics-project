@@ -1,6 +1,6 @@
 import sys
 from pygame import Surface
-from shapes import Shape
+from shapes import Shape, Circle
 from singleton import Singleton
 from typing import Iterable, List, Union
 
@@ -26,6 +26,9 @@ class DrawingManager(metaclass=Singleton):
     def draw(self):
         self.drawing_surface.fill("#A5C5E7")
         for shape in self.shapes:
+            if isinstance(shape, Circle):
+                self.midpoint_circle_algorithm(shape.center, shape.radius)
+                continue
             for i in range(-1, len(shape.vertices) - 1):
                 self.bresenham(shape.vertices[i], shape.vertices[i + 1])
 
@@ -121,6 +124,49 @@ class DrawingManager(metaclass=Singleton):
                     self.draw_to_surface((y1, x1))
                     # self.drawing_surface.blit(self.pixel, (y1,x1))
                 pk = pk + 2 * dy - 2 * dx
+
+    def midpoint_circle_algorithm(self, center, radius):
+        x = radius
+        y = 0
+        x_center, y_center = center
+        self.draw_to_surface((x, y))
+
+        if radius > 0:  # if it's 0 then it's a single point
+            # for the first point only 4 are enough,
+            # because each two adjacent octents share a single point
+            self.draw_to_surface((x + x_center, y + y_center))
+            self.draw_to_surface((y + x_center, x + y_center))
+            self.draw_to_surface((-x + x_center, y + y_center))
+            self.draw_to_surface((-y + x_center, x + y_center))
+
+        p = 1 - radius  # first decision parameter
+        while x > y:
+            # Y always gets incremented
+            # as we are moving counter clock-wise from y=0 until y=x
+            y += 1
+
+            # check if point is inside or outside the circle
+            if p <= 0:  # inside the circle or on the perimeter
+                p = p + 2 * y + 1
+            else:  # outside the circle
+                x -= 1  # decrement x to move our pixels back inside the circle
+                p = p + 2 * y - 2 * x + 1
+
+            if (
+                x < y
+            ):  # we have to check here before drwaing since we just changed x and y
+                return
+
+            # draw the point on all 8 octents
+            self.draw_to_surface((x + x_center, y + y_center))
+            self.draw_to_surface((-x + x_center, y + y_center))
+            self.draw_to_surface((x + x_center, -y + y_center))
+            self.draw_to_surface((-x + x_center, -y + y_center))
+
+            self.draw_to_surface((y+x_center, x+y_center))
+            self.draw_to_surface((-y+x_center, x+y_center))
+            self.draw_to_surface((y+x_center, -x+y_center))
+            self.draw_to_surface((-y+x_center, -x+y_center))
 
     def check_collision_with_surface(self, position):
         if position[0] in range(self.rect.left, self.rect.right) and position[

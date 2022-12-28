@@ -97,6 +97,20 @@
       "shadow_width": "10"
     }
   },
+  
+  "#circle_button": {
+    "images": {
+      "normal_image": {
+        "path": "assets/circleButtonBase.png"
+      },
+      "selected_image": {
+        "path": "assets/circleButtonSecondary.png"
+      }
+    },
+    "misc": {
+      "shadow_width": "10"
+    }
+  },
 
   "#translate_button": {
     "images": {
