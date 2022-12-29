@@ -1,6 +1,5 @@
-import sys
 from pygame import Surface
-from shapes import Shape, Circle, Ellipse
+from shapes import Shape, Circle, Ellipse, LineCollection
 from singleton import Singleton
 from typing import Iterable, List, Union
 import drawing_utils
@@ -31,6 +30,10 @@ class DrawingManager(metaclass=Singleton):
                 points = drawing_utils.midpoint_circle_algorithm(shape.center, shape.radius)
             elif isinstance(shape, Ellipse):
                 points = drawing_utils.midpoint_ellipse_algorithm(shape.center, shape.radius)
+            elif isinstance(shape, LineCollection):
+                points = []
+                for line in shape.collection:
+                    points += drawing_utils.bresenham(line.vertices[0], line.vertices[1])
             else:
                 points = []
                 for i in range(-1, len(shape.vertices) - 1):

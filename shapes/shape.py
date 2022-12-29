@@ -4,7 +4,13 @@ from abc import ABCMeta, abstractmethod
 from pygame import Rect
 
 
-class Shape(metaclass=ABCMeta):
+class ICollides(metaclass=ABCMeta):
+
+    @abstractmethod
+    def get_bounding_rect(self) -> Rect:
+        ...
+
+class Shape(ICollides, metaclass=ABCMeta):
     SHAPE_INPUTS = None
     def __init__(self) -> None:
         self.vertices = []
@@ -20,9 +26,7 @@ class Shape(metaclass=ABCMeta):
         if self.input_counter >= self.num_of_inputs:
             return True
         return False
-    @abstractmethod
-    def get_bounding_rect(self) -> Rect:
-        ...
+
     @abstractmethod
     def get_center(self) -> Iterable:
         ...

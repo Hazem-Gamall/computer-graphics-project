@@ -1,6 +1,7 @@
 import sys
 from typing import Tuple
 from shapes import Rectangle, Shape, Line
+from shapes.line_collection import LineCollection
 # from shapes import Rectangle
 
 
@@ -113,19 +114,38 @@ def liang_barsky(p1: Tuple, p2: Tuple, window_max: Tuple, window_min: Tuple) -> 
 
 
 
-
-
-def clip_shape(shape: Shape, window:Rectangle):
+def _clip_shape_lines(shape:Shape, window:Rectangle):
     post_clipping_shape_lines = []
-    for i in range(-1, len(shape.vertices)-1):
-        new_points = liang_barsky(shape.vertices[i], shape.vertices[i+1], window.max_p, window.min_p)
-        if new_points:
-            new_line = Line()
-            new_line.set_input(new_points[0])
-            new_line.set_input(new_points[1])
-            post_clipping_shape_lines.append(new_line)
+    if isinstance(shape, Line):
+        for i in range(len(shape.vertices)-1):
+            new_points = liang_barsky(shape.vertices[i], shape.vertices[i+1], window.max_p, window.min_p)
+            if new_points:
+                new_line = Line()
+                new_line.set_input(new_points[0])
+                new_line.set_input(new_points[1])
+                post_clipping_shape_lines.append(new_line)
+
+    else:
+        for i in range(-1, len(shape.vertices)-1):
+            new_points = liang_barsky(shape.vertices[i], shape.vertices[i+1], window.max_p, window.min_p)
+            if new_points:
+                new_line = Line()
+                new_line.set_input(new_points[0])
+                new_line.set_input(new_points[1])
+                post_clipping_shape_lines.append(new_line)
 
     return post_clipping_shape_lines
+
+def clip_shape(shape: Shape, window:Rectangle):
+    
+    if isinstance(shape, LineCollection):
+        resulting_line_collection = []
+        for line in shape.collection:
+            resulting_line_collection += _clip_shape_lines(line, window)
+    else:
+        resulting_line_collection = _clip_shape_lines(shape, window)
+    return LineCollection(resulting_line_collection)
+    
 if __name__ == "__main__":
     p1 = (7,9)
     p2 = (11,4)

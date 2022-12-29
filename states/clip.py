@@ -9,7 +9,6 @@ from button import CallbackButton
 from drawing_manager import DrawingManager
 from event_manager import EventManager
 from shapes import Line, Rectangle, Shape, Triangle
-from shapes.shape_collection import ShapeCollection
 from states.base import BaseState
 from collision_utils import check_shape_collision, check_shape_point_collision
 from clip_utils import clip_shape

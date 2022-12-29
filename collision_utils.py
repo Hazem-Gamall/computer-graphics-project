@@ -4,6 +4,7 @@ from pygame import Rect
 from drawing_manager import DrawingManager
 
 from shapes import Line, Shape
+from shapes.line_collection import LineCollection
 from shapes.rectangle import Rectangle
 from clip_utils import get_region_code
 
@@ -37,12 +38,16 @@ def check_line_rectangle_collision(line: Line, rectangle:Rectangle):
     
     #it's not really necessary to check if the line is inside the clipping window,
     #because we don't process it then anyway
-    # return check_line_inside_rectangle(line, rectangle)
-    return False
+    return check_line_inside_rectangle(line, rectangle)
 
 def check_shape_collision(shape1: Union[Shape,Line], shape2: Shape) -> bool:
     if type(shape1) == Line:
         return check_line_rectangle_collision(shape1, shape2)
+    elif isinstance(shape1, LineCollection):
+        
+        if len(shape1.collection) == 1:
+            return check_line_rectangle_collision(*shape1.collection, shape2)
+    # print("collider shape rect", shape1.get_bounding_rect())
     return shape1.get_bounding_rect().colliderect(shape2.get_bounding_rect())
 
 
