@@ -145,7 +145,7 @@ class DrawState(BaseState):
                     return
                 for params in input_params:
                     self.temp_shape.set_input(params)
-                    print("param:", params, "xr",self.temp_shape.xradius, "yr", self.temp_shape.yradius)
+                    # print("param:", params, "xr",self.temp_shape.xradius, "yr", self.temp_shape.yradius)
                 self.input_window.get_container().kill()
                 self.input_window.hide()
                 DrawingManager().register_shapes(self.temp_shape)
