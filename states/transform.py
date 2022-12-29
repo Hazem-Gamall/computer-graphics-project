@@ -13,7 +13,6 @@ from collision_utils import check_shape_point_collision
 import transformation_utils
 
 
-
 class TransformSubstate(Enum):
     NEUTRAL = 1
     SCALING = 2
@@ -43,7 +42,7 @@ class TransformState(BaseState):
         )
 
         CallbackButton(
-            pygame.Rect(40 + 70+50,50,70,70),
+            pygame.Rect(40 + 70 + 50, 50, 70, 70),
             manager=game.ui_manager,
             container=game.state_panel,
             object_id=ObjectID("#scale_button"),
@@ -51,27 +50,31 @@ class TransformState(BaseState):
         )
 
         CallbackButton(
-            pygame.Rect(40,50+70+60,70,70),
+            pygame.Rect(40, 50 + 70 + 60, 70, 70),
             manager=game.ui_manager,
             container=game.state_panel,
             object_id=ObjectID("#rotate_button"),
-            callback=lambda event: self.change_substate(TransformSubstate.ROTATION)
+            callback=lambda event: self.change_substate(TransformSubstate.ROTATION),
         )
 
         CallbackButton(
-            pygame.Rect(40+70+50, 50+70+60 ,70,70),
+            pygame.Rect(40 + 70 + 50, 50 + 70 + 60, 70, 70),
             manager=game.ui_manager,
             container=game.state_panel,
             object_id=ObjectID("#pivot_scale_button"),
-            callback=lambda event: self.change_substate(TransformSubstate.PIVOT_SCALING)
+            callback=lambda event: self.change_substate(
+                TransformSubstate.PIVOT_SCALING
+            ),
         )
 
         CallbackButton(
-            pygame.Rect(40,50+70*2+60*2,70,70),
+            pygame.Rect(40, 50 + 70 * 2 + 60 * 2, 70, 70),
             manager=game.ui_manager,
             container=game.state_panel,
             object_id=ObjectID("#pivot_rotate_button"),
-            callback=lambda event: self.change_substate(TransformSubstate.PIVOT_ROTATION)
+            callback=lambda event: self.change_substate(
+                TransformSubstate.PIVOT_ROTATION
+            ),
         )
 
         EventManager().register_event(pygame.MOUSEBUTTONDOWN, self.on_click)
@@ -89,15 +92,21 @@ class TransformState(BaseState):
 
     def create_input_window(self, type: TransformSubstate):
         transformation_lookup = {
-            TransformSubstate.TRANSLATION: (0,["tx", "ty"], transformation_utils.translate),
-            TransformSubstate.SCALING: (1,["sx", "sy"], transformation_utils.scale),
-            TransformSubstate.ROTATION: (0,["angle"], transformation_utils.rotate),
+            TransformSubstate.TRANSLATION: (
+                0,
+                ["tx", "ty"],
+                transformation_utils.translate,
+            ),
+            TransformSubstate.SCALING: (1, ["sx", "sy"], transformation_utils.scale),
+            TransformSubstate.ROTATION: (0, ["angle"], transformation_utils.rotate),
             TransformSubstate.PIVOT_SCALING: (
-                0,["sx", "sy", "px", "py"],
+                0,
+                ["sx", "sy", "px", "py"],
                 transformation_utils.pivot_scale,
             ),
             TransformSubstate.PIVOT_ROTATION: (
-                0,["angle", "px", "py"],
+                0,
+                ["angle", "px", "py"],
                 transformation_utils.pivot_rotate,
             ),
         }
@@ -131,14 +140,21 @@ class TransformState(BaseState):
 
             def submit_callback(event):
                 try:
-
+                    transformation_params = {}
                     for i, param in enumerate(input_params):
-                        input_params[i] = float(text_entry_elements[i].get_text())
+                        transformation_params[param] = float(text_entry_elements[i].get_text())
+                    transformation_params["center"] = self.temp_shape.get_center()
                 except ValueError:
                     print("casting error")
                     return
 
-                transformation(self.temp_shape, *input_params)
+ 
+                transformation_utils.transform_shape(
+                    self.temp_shape,
+                    transformation,
+                    **transformation_params
+                )
+   
                 self.input_window.get_container().kill()
                 self.input_window.hide()
                 self.change_substate(TransformSubstate.NEUTRAL)

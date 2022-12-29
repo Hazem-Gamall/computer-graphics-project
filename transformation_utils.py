@@ -5,18 +5,16 @@ import numpy as np
 
 
 
-
-def apply_transformation(shape: Shape, transformation_matrix):
-    for i, vertex in enumerate(shape.vertices):
-        new_vertex = (np.matmul(transformation_matrix, [*vertex, 1])[:2]).astype(np.int32).tolist()
-        shape.vertices[i] = new_vertex
-        #TODO: bad design
-        if isinstance(shape, Circle) or isinstance(shape, Ellipse):
-            shape.center = new_vertex
+def apply_transformation(point, transformation_matrix):
+    new_point = (np.matmul(transformation_matrix, [*point, 1])[:2]).astype(np.int32).tolist()
+    return new_point
 
 
 
-def translate(shape: Shape, tx, ty):
+def translate(point, **params):
+    tx = params["tx"]
+    ty = params["ty"]
+    
     translation_matrix = np.array(
         [
             [1, 0, tx],
@@ -24,7 +22,9 @@ def translate(shape: Shape, tx, ty):
             [0, 0, 1]
         ])
 
-    apply_transformation(shape, translation_matrix)
+        
+
+    return apply_transformation(point, translation_matrix)
 
 
 
@@ -35,7 +35,11 @@ def ellipse_scaling(ellipse:Ellipse, sx, sy):
     ellipse.xradius *= sx
     ellipse.yradius *= sy
 
-def scale(shape: Shape, sx, sy):
+def scale(point, **params):
+    
+    sx = params["sx"]
+    sy = params["sy"]
+    
     scaling_matrix = np.array(
         [
             [sx, 0, 0],
@@ -43,15 +47,11 @@ def scale(shape: Shape, sx, sy):
             [0, 0, 1]
         ])
 
-    apply_transformation(shape, scaling_matrix)
-
-    if isinstance(shape, Circle):
-        circle_scaling(shape, sx)
-    elif isinstance(shape, Ellipse):
-        ellipse_scaling(shape, sx, sy)
+    return apply_transformation(point, scaling_matrix)
 
 
-def rotate(shape: Shape, angle):
+def rotate(point, **params):
+    angle = params["angle"]
     angle = math.radians(angle)
     rotation_matrix = np.array(
         [
@@ -59,13 +59,17 @@ def rotate(shape: Shape, angle):
             [math.sin(angle), math.cos(angle), 0],
             [              0,               0, 1]
         ])
-    apply_transformation(shape, rotation_matrix)
+    return apply_transformation(point, rotation_matrix)
 
 
-def pivot_rotate(shape: Shape, angle, px, py):
+def pivot_rotate(point, **params):
+    center = params["center"]
+    angle = params["angle"]
+    px = params["px"]
+    py = params["py"]
+
     angle = math.radians(angle)
-    shape_center = shape.get_center()
-    tx, ty = shape_center[0] - px, shape_center[1] - py
+    tx, ty = center[0] - px, center[1] - py
 
     pivot_rotation_matrix = np.array(
         [
@@ -74,12 +78,17 @@ def pivot_rotate(shape: Shape, angle, px, py):
             [              0,               0,                                              1]
         ])
 
-    apply_transformation(shape, pivot_rotation_matrix)
+    return apply_transformation(point, pivot_rotation_matrix)
 
 
-def pivot_scale(shape: Shape, sx, sy, px, py):
-    shape_center = shape.get_center()
-    tx, ty = shape_center[0] - px, shape_center[1] - py
+def pivot_scale(point, **params):
+    center = params["center"]
+    sx = params["sx"]
+    sy = params["sy"]
+    px = params["px"]
+    py = params["py"]
+    
+    tx, ty = center[0] - px, center[1] - py
 
     pivot_scaling_matrix = np.array(
         [
@@ -88,9 +97,10 @@ def pivot_scale(shape: Shape, sx, sy, px, py):
             [0, 0, 1]
         ])
 
-    apply_transformation(shape, pivot_scaling_matrix)
-    if isinstance(shape, Circle):
-        circle_scaling(shape, sx)        
-    elif isinstance(shape, Ellipse):
-        ellipse_scaling(shape, sx, sy)
+    return apply_transformation(point, pivot_scaling_matrix)
 
+
+def transform_shape(shape: Shape, transformation, **params):
+
+    for i, vertex in enumerate(shape.vertices):
+        shape.vertices[i] = transformation(vertex, **params)
