@@ -9,7 +9,7 @@ from drawing_manager import DrawingManager
 from event_manager import EventManager
 from shapes import Shape
 from states.base import BaseState
-from collision_manager import check_shape_point_collision
+from collision_utils import check_shape_point_collision
 import transformation_utils
 
 

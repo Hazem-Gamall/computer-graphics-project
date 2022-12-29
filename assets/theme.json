@@ -112,6 +112,20 @@
     }
   },
 
+  "#ellipse_button": {
+    "images": {
+      "normal_image": {
+        "path": "assets/ellipseButtonBase.png"
+      },
+      "selected_image": {
+        "path": "assets/ellipseButtonSecondary.png"
+      }
+    },
+    "misc": {
+      "shadow_width": "10"
+    }
+  },
+
   "#translate_button": {
     "images": {
       "normal_image": {

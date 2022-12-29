@@ -8,7 +8,7 @@ from audio_manager import AudioManager
 from button import CallbackButton
 from drawing_manager import DrawingManager
 from event_manager import EventManager
-from shapes import Line, Rectangle, Triangle, Circle, Shape
+from shapes import Line, Rectangle, Triangle, Circle, Shape, Ellipse
 
 class DrawSubstate(Enum):
     NEUTRAL = 1
@@ -62,13 +62,13 @@ class DrawState(BaseState):
             callback=lambda event: self.create_shape(Circle)
         )
 
-        # CallbackButton(
-        #     pygame.Rect(40,50+70*2+60*2,70,70),
-        #     manager=game.ui_manager,
-        #     container=game.state_panel,
-        #     object_id=ObjectID("#pivot_rotate_button"),
-        #     callback=lambda event: self.change_substate(TransformSubstate.PIVOT_ROTATION)
-        # )
+        CallbackButton(
+            pygame.Rect(40,50+70*2+60*2,70,70),
+            manager=game.ui_manager,
+            container=game.state_panel,
+            object_id=ObjectID("#ellipse_button"),
+            callback=lambda event: self.create_shape(Ellipse)
+        )
 
         EventManager().register_event(pygame.MOUSEBUTTONDOWN, self.on_click)
 
@@ -92,13 +92,19 @@ class DrawState(BaseState):
                 self.temp_shape.set_input(event.pos) #cirlce center
                 self.create_input_window(DrawSubstate.CIRCLE)
 
+        elif self.substate == DrawSubstate.ELLIPSE:
+            if DrawingManager().check_collision_with_surface(event.pos):
+                AudioManager().play_sound("hitmarker")
+                self.temp_shape.set_input(event.pos) #ellipse center
+                self.create_input_window(DrawSubstate.ELLIPSE)
+
 
     #stolen from the transform state, bad code design
     #TODO: encapsulate input window creation somewhere else
     def create_input_window(self, type: DrawSubstate):
         drawing_lookup = {
             DrawSubstate.CIRCLE: (0,["radius"]),
-            # DrawSubstate.ELLIPSE: (1,["sx", "sy"]),
+            DrawSubstate.ELLIPSE: (0,["Xr", "Yr"]),
         }
         self.change_substate(DrawSubstate.INPUT_WINDOW)
 
@@ -137,11 +143,13 @@ class DrawState(BaseState):
                 except ValueError:
                     print("casting error")
                     return
-
-                self.temp_shape.set_input(*input_params)
+                for params in input_params:
+                    self.temp_shape.set_input(params)
+                    print("param:", params, "xr",self.temp_shape.xradius, "yr", self.temp_shape.yradius)
                 self.input_window.get_container().kill()
                 self.input_window.hide()
                 DrawingManager().register_shapes(self.temp_shape)
+                print("registered", self.temp_shape)
                 self.change_substate(DrawSubstate.NEUTRAL)
                 ...
 
@@ -159,6 +167,8 @@ class DrawState(BaseState):
         AudioManager().play_sound("button_click")
         if shape_class == Circle:
             self.change_substate(DrawSubstate.CIRCLE)
+        elif shape_class == Ellipse:
+            self.change_substate(DrawSubstate.ELLIPSE)
         else:
             self.change_substate(DrawSubstate.SHAPE)
         self.temp_shape = shape_class()

@@ -10,7 +10,7 @@ from clip_utils import get_region_code
 
 def check_line_collision(line1: Iterable[Iterable], line2: Iterable[Iterable]):
     """Implements the technique described here
-    https://www.shorturl.at/dMP48 by Paul Bourke"""
+    http://paulbourke.net/geometry/pointlineplane/ by Paul Bourke"""
 
     (x1,y1),(x2,y2) = line1
     (x3,y3),(x4,y4) = line2

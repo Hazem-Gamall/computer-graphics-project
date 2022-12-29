@@ -1,7 +1,8 @@
 import math
 import sys
-from shapes import Shape, Circle
+from shapes import Shape, Circle, Ellipse
 import numpy as np
+
 
 
 
@@ -10,7 +11,7 @@ def apply_transformation(shape: Shape, transformation_matrix):
         new_vertex = (np.matmul(transformation_matrix, [*vertex, 1])[:2]).astype(np.int32).tolist()
         shape.vertices[i] = new_vertex
         #TODO: bad design
-        if isinstance(shape, Circle):
+        if isinstance(shape, Circle) or isinstance(shape, Ellipse):
             shape.center = new_vertex
 
 
@@ -30,6 +31,9 @@ def translate(shape: Shape, tx, ty):
 def circle_scaling(circle: Circle, s):
     circle.radius *= s
 
+def ellipse_scaling(ellipse:Ellipse, sx, sy):
+    ellipse.xradius *= sx
+    ellipse.yradius *= sy
 
 def scale(shape: Shape, sx, sy):
     scaling_matrix = np.array(
@@ -43,6 +47,8 @@ def scale(shape: Shape, sx, sy):
 
     if isinstance(shape, Circle):
         circle_scaling(shape, sx)
+    elif isinstance(shape, Ellipse):
+        ellipse_scaling(shape, sx, sy)
 
 
 def rotate(shape: Shape, angle):
@@ -85,5 +91,6 @@ def pivot_scale(shape: Shape, sx, sy, px, py):
     apply_transformation(shape, pivot_scaling_matrix)
     if isinstance(shape, Circle):
         circle_scaling(shape, sx)        
-
+    elif isinstance(shape, Ellipse):
+        ellipse_scaling(shape, sx, sy)
 
