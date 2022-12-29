@@ -101,6 +101,20 @@ def pivot_scale(point, **params):
 
 
 def transform_shape(shape: Shape, transformation, **params):
+    if isinstance(shape, (Circle, Ellipse)):
+        shape.center = transformation(shape.center, **params)
+        scaling_factors = [params.get("sx", 1), params.get("sy", 1)]
+
+        if isinstance(shape, Circle):
+            shape.radius *= scaling_factors[0]
+        elif isinstance(shape, Ellipse):
+            angle = params.get("angle", 0)
+            shape.radius[0] *= scaling_factors[0]
+            shape.radius[1] *= scaling_factors[1]
+            shape.angle = angle
+            
+        
+            
 
     for i, vertex in enumerate(shape.vertices):
         shape.vertices[i] = transformation(vertex, **params)

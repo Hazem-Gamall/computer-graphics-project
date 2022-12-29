@@ -8,8 +8,8 @@ class Ellipse(Shape):
 
     def __init__(self) -> None:
         super().__init__()
-        self.xradius = None
-        self.yradius = None
+        self.radius = []
+        self.angle = 0
         self.center = None
 
     def set_input(self, input):
@@ -20,18 +20,19 @@ class Ellipse(Shape):
             return False
         if self.input_counter == 1:
             self.input_counter +=1
-            self.xradius = input
+            self.radius.append(input)
             return False
         else:
             self.input_counter +=1
-            self.yradius = input
+            self.radius.append(input)
             return True
 
     def get_center(self) -> Iterable:
         return self.center
     
     def get_bounding_rect(self) -> Rect:
-        return Rect(self.center[0] - self.xradius, self.center[1]-self.yradius, 2*self.xradius, 2*self.yradius)
+        xradius, yradius = self.radius[0], self.radius[1]
+        return Rect(self.center[0] - xradius, self.center[1]-yradius, 2*xradius, 2*yradius)
 
 if __name__ == "__main__":
     el = Ellipse()

@@ -30,7 +30,7 @@ class DrawingManager(metaclass=Singleton):
             if isinstance(shape, Circle):
                 points = drawing_utils.midpoint_circle_algorithm(shape.center, shape.radius)
             elif isinstance(shape, Ellipse):
-                points = drawing_utils.midpoint_ellipse_algorithm(shape.center, shape.xradius, shape.yradius)
+                points = drawing_utils.midpoint_ellipse_algorithm(shape.center, shape.radius)
             else:
                 points = []
                 for i in range(-1, len(shape.vertices) - 1):

@@ -130,7 +130,7 @@ def midpoint_circle_algorithm(center, radius):
         if (
             x < y
         ):  # we have to check here before drwaing since we just changed x and y
-            return
+            return points
 
         # draw the point on all 8 octents
         points.append((x + x_center, y + y_center))
@@ -142,11 +142,11 @@ def midpoint_circle_algorithm(center, radius):
         points.append((-y + x_center, x + y_center))
         points.append((y + x_center, -x + y_center))
         points.append((-y + x_center, -x + y_center))
-
     return points
 
-def midpoint_ellipse_algorithm(center, xradius, yradius):
+def midpoint_ellipse_algorithm(center, radius):
     # Starting from Region1 -> starts from the y axis in the first quadrant
+    xradius, yradius = radius
     x = 0
     y = yradius
     # a = rx, b = ry
