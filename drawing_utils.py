@@ -1,5 +1,5 @@
 from typing import List
-
+from logger import Logger
 
 def dda(p1, p2) -> List:
     x1, y1 = p1
@@ -35,12 +35,15 @@ def dda(p1, p2) -> List:
     return points
 
 # aka midpoint
-def bresenham(p1, p2) -> List : 
+def bresenham(p1, p2, log=False) -> List : 
 
     # pk is initial decision making parameter
     # Note:x1&y1,x2&y2, dx&dy values are interchanged
     # and passed in plotPixel function so
     # it can handle both cases when m>1 & m<1
+    # logger = Logger()
+    data = {key:[] for key in ["x","y","p"]}
+
     x1, y1 = p1
     x2, y2 = p2
     lt_one_slope = True
@@ -52,8 +55,12 @@ def bresenham(p1, p2) -> List :
         x1, x2, dx, y1, y2, dy = y1, y2, dy, x1, x2, dx
         # print(x1, x2, dx, y1, y2, dy)
         lt_one_slope = False
+        data["x"].append(y1)
+        data["y"].append(x1)
         points.append((y1, x1))
     else:
+        data["x"].append(x1)
+        data["y"].append(y1)
         points.append((x1, y1))
     pk = 2 * dy - dx
 
@@ -75,12 +82,16 @@ def bresenham(p1, p2) -> List :
 
                 # putpixel(x1, y1, RED);
                 points.append((x1, y1))
+                data["x"].append(x1)
+                data["y"].append(y1)
                 # self.drawing_surface.blit(self.pixel, (x1,y1))
                 pk = pk + 2 * dy
             else:
 
                 # (y1,x1) is passed in xt
                 # putpixel(y1, x1, YELLOW);
+                data["x"].append(y1)
+                data["y"].append(x1)
                 points.append((y1, x1))
                 # self.drawing_surface.blit(self.pixel, (y1,x1))
                 pk = pk + 2 * dy
@@ -91,13 +102,19 @@ def bresenham(p1, p2) -> List :
                 y1 = y1 - 1
 
             if lt_one_slope:
+                data["x"].append(x1)
+                data["y"].append(y1)
                 points.append((x1, y1))
                 # self.drawing_surface.blit(self.pixel, (x1,y1))
             else:
+                data["x"].append(y1)
+                data["y"].append(x1)
                 points.append((y1, x1))
                 # self.drawing_surface.blit(self.pixel, (y1,x1))
             pk = pk + 2 * dy - 2 * dx
-
+            data["p"].append(pk)
+    if log:
+        return data
     return points
 
 def midpoint_circle_algorithm(center, radius):

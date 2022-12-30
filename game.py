@@ -2,6 +2,7 @@ import sys
 from audio_manager import AudioManager
 from drawing_manager import DrawingManager
 from event_manager import EventManager
+from logger.logger import Logger
 from singleton import Singleton
 import pygame
 from state_machine import StateMachine
@@ -32,6 +33,7 @@ class Game(metaclass=Singleton):
         AudioManager().initialize()
         AudioManager().register_sound("hitmarker", "assets/sound/hitmarker.mp3")
         AudioManager().register_sound("button_click", "assets/sound/button_click.mp3")
+        Logger().initialize(self)
 
     def draw(self):
         DrawingManager().draw()
@@ -45,7 +47,8 @@ class Game(metaclass=Singleton):
                 pygame.quit
                 sys.exit()
             if event.type == pygame_gui.UI_BUTTON_PRESSED:
-                event.ui_element.callback(event)
+                if isinstance(event.ui_element, CallbackButton):
+                    event.ui_element.callback(event)
         StateMachine(self).update()
 
     def reset_state_panel(self):

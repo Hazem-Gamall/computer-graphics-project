@@ -29,7 +29,7 @@ class TransformState(BaseState):
         self.substate = TransformSubstate.NEUTRAL
         self.temp_shape: Shape = None
         self.input_window = pygame_gui.elements.UIWindow(
-            pygame.Rect(500, 235, 340, 200), game.ui_manager
+            pygame.Rect(500, 235, 340, 200), game.ui_manager,object_id=ObjectID("#input_window")
         )
         self.input_window.hide()
 

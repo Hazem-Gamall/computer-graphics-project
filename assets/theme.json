@@ -197,7 +197,7 @@
     }
   },
 
-  "window": {
+  "#input_window": {
     "colours": {
       "dark_bg": "#BCCEE1",
       "normal_border": "#999999"
@@ -212,7 +212,7 @@
       "enable_close_button": "0"
     }
   },
-  "window.text_entry_line": {
+  "#input_window.text_entry_line": {
     "colours": {
       "dark_bg": "#ffffff",
       "selected_bg": "#55595e",
@@ -223,7 +223,7 @@
     }
   },
 
-  "window.button":{
+  "#input_window.button":{
     "colours":{
       "normal_bg":"#32A4AB",
       "normal_text":"#123456",
@@ -235,7 +235,7 @@
       "shape":"rounded_rectangle"
     }
   },
-  "window.label":{
+  "#input_window.label":{
     "colours":{
       "normal_text":"#000000"
     }
