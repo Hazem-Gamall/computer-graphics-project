@@ -1,6 +1,5 @@
 from pygame import Rect
-from drawing_utils import bresenham
-
+from line_drawer import get_line_drawer
 from logger.logger import Logger
 from .shape import Shape
 
@@ -10,8 +9,9 @@ class Line(Shape):
     def set_input(self, input):
         ret_val = super().set_input(input)
         if self.input_counter == 2:
-            data = bresenham(*self.vertices, True)
+            data = get_line_drawer()(*self.vertices, True)
             Logger().set_data(data)
+            ...
         return ret_val
 
 

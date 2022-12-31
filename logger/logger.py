@@ -13,7 +13,7 @@ class Logger(metaclass=Singleton):
     def initialize(self, game, data: Dict[str, List]={}) -> None:
         self.game = game
         self.data = data
-        self.horizontal_margin = 7
+        self.horizontal_margin = 10
         self.vertical_margin = 1
         self.log_window = HideButtonUIWindow((300,100,530,300),game.ui_manager, "", resizable=True)
         self.text_box = pygame_gui.elements.UITextBox("", (0,0,500,300),game.ui_manager, container=self.log_window)
@@ -36,7 +36,7 @@ class Logger(metaclass=Singleton):
         output += header_string
         for row in zip(*list(self.data.values())):
             for element in row:
-                output += str(element).ljust(self.horizontal_margin) 
+                output += str(round(element,2)).ljust(self.horizontal_margin) 
             output += "\n"*self.vertical_margin 
 
         return output

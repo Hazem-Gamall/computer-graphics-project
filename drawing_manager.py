@@ -3,6 +3,7 @@ from pygame import Surface
 from shapes import Shape, Circle, Ellipse
 from singleton import Singleton
 from typing import Iterable, List, Union
+from line_drawer import get_line_drawer
 import drawing_utils
 
 
@@ -14,6 +15,7 @@ class DrawingManager(metaclass=Singleton):
         self.drawing_surface: Surface = drawing_surface
         self.drawing_surface_offset = (270, 80)
         self.rect = self.drawing_surface.get_rect(topleft=self.drawing_surface_offset)
+        self.line_drawer = get_line_drawer()
 
     def register_shapes(self, shapes: Union[Shape, Iterable]):
         if isinstance(shapes, Iterable):
@@ -34,7 +36,7 @@ class DrawingManager(metaclass=Singleton):
             else:
                 points = []
                 for i in range(-1, len(shape.vertices) - 1):
-                    points += drawing_utils.bresenham(shape.vertices[i], shape.vertices[i + 1])
+                    points += self.line_drawer(shape.vertices[i], shape.vertices[i + 1])
             
             self.draw_points_to_surface(points)
 
