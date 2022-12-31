@@ -42,9 +42,7 @@ class Logger(metaclass=Singleton):
         return output
     
     def set_visiblity(self, visible:int):
-        print(self.text_box.scroll_bar)
-        print(self.log_window)
-        print(self.text_box)
+
         if visible:
             self.log_window.show()
             self.text_box.show()

@@ -3,7 +3,7 @@ from pygame import Surface
 from shapes import Shape, Circle, Ellipse
 from singleton import Singleton
 from typing import Iterable, List, Union
-from line_drawer import get_line_drawer
+from drawing_utils.line_drawer import get_line_drawer
 import drawing_utils
 
 

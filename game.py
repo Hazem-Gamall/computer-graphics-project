@@ -12,7 +12,8 @@ from states import DrawState, TransformState, ClipState
 import pygame_gui
 from pygame_gui.core import ObjectID
 from button import CallbackButton
-import line_drawer
+import drawing_utils.line_drawer as line_drawer
+import clip_utils.clipper_algorithm as clipper_algorithm
 
 # this file is too big
 # TODO:
@@ -47,13 +48,15 @@ class Game(metaclass=Singleton):
             EventManager().push(event)
             self.ui_manager.process_events(event)
             if event.type == pygame.QUIT:
-                pygame.quit
+                pygame.quit()
                 sys.exit()
             if event.type == pygame_gui.UI_BUTTON_PRESSED:
                 if isinstance(event.ui_element, CallbackButton):
                     event.ui_element.callback(event)
             if event.type == pygame_gui.UI_DROP_DOWN_MENU_CHANGED:
                 line_drawer.change_drawer(event.text)
+                clipper_algorithm.change_clipper_algorithm(event.text)
+                
                 
         StateMachine(self).update()
 
@@ -104,6 +107,14 @@ class Game(metaclass=Singleton):
             ["DDA", "Bresenham"],
             "Bresenham",
             (1200, 5, 100, 30),
+            self.ui_manager,
+            self.main_panel,
+        )
+
+        pygame_gui.elements.UIDropDownMenu(
+            ["Liang Barsky", "Cohen Sutherland"],
+            "Liang Barsky",
+            (1050, 5, 150, 30),
             self.ui_manager,
             self.main_panel,
         )

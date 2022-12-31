@@ -3,20 +3,17 @@ from typing import Tuple
 from shapes import Rectangle, Shape, Line
 from .cohen_sutherland import cohen_sutherland, get_region_code
 from .liang_barsky import liang_barsky
+from .clipper_algorithm import get_clipper_algorithm
 # from shapes import Rectangle
-
-
-
-
-
 
 
 
 
 def clip_shape(shape: Shape, window:Rectangle):
     post_clipping_shape_lines = []
+    clipper = get_clipper_algorithm()
     for i in range(-1, len(shape.vertices)-1):
-        new_points = liang_barsky(shape.vertices[i], shape.vertices[i+1], window.max_p, window.min_p)
+        new_points = clipper(shape.vertices[i], shape.vertices[i+1], window.max_p, window.min_p)
         if new_points:
             new_line = Line()
             new_line.set_input(new_points[0])

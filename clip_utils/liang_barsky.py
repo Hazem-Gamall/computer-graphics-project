@@ -1,7 +1,8 @@
 from typing import Tuple
 
 
-def liang_barsky(p1: Tuple, p2: Tuple, window_max: Tuple, window_min: Tuple) -> Tuple:      
+def liang_barsky(p1: Tuple, p2: Tuple, window_max: Tuple, window_min: Tuple) -> Tuple:    
+    print("liang")  
     xmax, ymax = window_max
     xmin, ymin = window_min
     u1, u2 = 0, 1

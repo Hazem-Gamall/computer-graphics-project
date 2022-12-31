@@ -1,5 +1,5 @@
 from pygame import Rect
-from line_drawer import get_line_drawer
+from drawing_utils.line_drawer import get_line_drawer
 from logger.logger import Logger
 from .shape import Shape
 

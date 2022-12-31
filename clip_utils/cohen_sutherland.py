@@ -28,7 +28,7 @@ def get_region_code(point, window_max, window_min):
     
 
 def cohen_sutherland(p1: Tuple, p2: Tuple, window_max: Tuple, window_min: Tuple) -> Tuple:
-    
+    print("cohen")
     xmax, ymax = window_max
     xmin, ymin = window_min
 
