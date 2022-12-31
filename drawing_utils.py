@@ -70,6 +70,7 @@ def bresenham(p1, p2, log=False) -> List :
 
         # checking either to decrement or increment the
         # value if we have to plot from (0,100) to (100,0)
+        data["p"].append(pk)
         if x1 < x2:
             x1 = x1 + 1
         else:
@@ -80,11 +81,9 @@ def bresenham(p1, p2, log=False) -> List :
             # either  x1 or y1 in x's position
             if lt_one_slope:
 
-                # putpixel(x1, y1, RED);
                 points.append((x1, y1))
                 data["x"].append(x1)
                 data["y"].append(y1)
-                # self.drawing_surface.blit(self.pixel, (x1,y1))
                 pk = pk + 2 * dy
             else:
 
@@ -112,7 +111,6 @@ def bresenham(p1, p2, log=False) -> List :
                 points.append((y1, x1))
                 # self.drawing_surface.blit(self.pixel, (y1,x1))
             pk = pk + 2 * dy - 2 * dx
-            data["p"].append(pk)
     if log:
         return data
     return points
